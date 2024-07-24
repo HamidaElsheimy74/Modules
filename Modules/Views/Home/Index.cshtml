@@ -1,0 +1,40 @@
+﻿@model List<Department>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<h2>Departments</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Department Name</th>
+            <th>Department Logo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var department in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="DepartmentDetails" asp-route-id="@department.Id">@department.DepartmentName</a>
+                </td>
+                <td>
+                    @if (department.DepartmentLogo != null)
+                    {
+                        <img src="data:image;base64,@Convert.ToBase64String(department.DepartmentLogo)" alt="Department Logo" width="50" height="50" />
+                    }
+                    else
+                    {
+                        <span>No Logo</span>
+                    }
+                </td>
+           </tr>
+        }
+    </tbody>
+</table>

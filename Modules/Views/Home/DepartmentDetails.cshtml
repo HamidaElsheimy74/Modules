@@ -1,0 +1,78 @@
+﻿@model DepartmentDetailsModel
+<h3>Department: </h3>
+<div>
+    <ul>
+        <li>Department Name: @Model.Department.DepartmentName</li>
+        <li>Creation Date: @Model.Department.creationDate</li>
+    @if (@Model.Department.DepartmentLogo != null)
+        {
+            <li> Logo: 
+                <img src="data:image;base64,@Convert.ToBase64String(@Model.Department.DepartmentLogo)" alt="Department Logo" width="50" height="50" />
+            </li>
+        }
+        else
+        {
+            <li>No Logo</li>
+        }
+    </ul>
+</div>
+
+<h3>Parent Departments: </h3>
+<ul>
+    @if (Model.ParentDepartments.Count != 0)
+    {
+        @foreach (var parent in Model.ParentDepartments)
+        {
+            <li>
+                Department Name: @parent.DepartmentName
+            </li>
+            <li>Creation Date: @parent.creationDate</li>
+
+            @if (parent.DepartmentLogo != null)
+            {
+                <li> Logo: 
+                    <img src="data:image;base64,@Convert.ToBase64String(parent.DepartmentLogo)" alt="Department Logo" width="50" height="50" />
+                </li>
+            }
+            else
+            {
+                <li>No Logo</li>
+            }
+
+        }
+
+    }
+    else
+    {
+        <li>No parent departments avilable for this department.</li>
+    }
+</ul>
+
+<h3>SubDepartments: </h3>
+<ul>
+    @if (Model.Department.SubDepartments.Count != 0)
+    {
+        @foreach (var subDepartment in Model.Department.SubDepartments)
+        {
+            <li> Department Name: @subDepartment.DepartmentName</li>
+            <li>Creation Date:  @subDepartment.creationDate</li>
+
+            @if (subDepartment.DepartmentLogo != null)
+            {
+                <li> Logo: 
+                    <img src="data:image;base64,@Convert.ToBase64String(subDepartment.DepartmentLogo)" alt="Department Logo" width="50" height="50" />
+                </li>
+            }
+            else
+            {
+                <li>No Logo</li>
+            }
+        }
+
+    }
+    else
+    {
+        <li>No sub-departments avilable for this department.</li>
+    }
+</ul>
+
