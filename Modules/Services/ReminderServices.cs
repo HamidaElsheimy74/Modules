@@ -10,10 +10,12 @@ public class ReminderServices : IReminderServices
 {
     private readonly ModulesDBContext _dbContext;
     private readonly IEmailNotificationServices _emailNotificationServices;
-    public ReminderServices(ModulesDBContext dbContext, IEmailNotificationServices emailNotificationServices)
+    private readonly IBackgroundJobClient _jobClient;
+    public ReminderServices(ModulesDBContext dbContext, IEmailNotificationServices emailNotificationServices, IBackgroundJobClient jobClient)
     {
         _dbContext = dbContext;
         _emailNotificationServices = emailNotificationServices;
+        _jobClient = jobClient;
     }
 
     public async Task<bool> AddReminder(Reminder model, ILogger logger)
@@ -38,7 +40,7 @@ public class ReminderServices : IReminderServices
             {
                 var runAt = new DateTimeOffset(model.Date_Time.Year, model.Date_Time.Month, model.Date_Time.Day, model.Date_Time.Hour, model.Date_Time.Minute, model.Date_Time.Second, TimeSpan.Zero);
 
-                BackgroundJob.Schedule(() => SendMAilAndUpdateDB(model.Email, model.Title, reminderId, model.Date_Time), runAt);
+                _jobClient.Schedule(() => SendMAilAndUpdateDB(model.Email, model.Title, reminderId, model.Date_Time), runAt);
 
             }
 

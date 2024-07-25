@@ -20,7 +20,9 @@ public class DepartmentServices : IDepartmentServices
         {
             logger.LogTrace(string.Format(ModulesConstants.MethodStart, $"{GetType().Name}.{nameof(GetDepartmentDetails)}"));
 
-            var department = await _dbContext.Departments.Include(dept => dept.Parent).ThenInclude(dep => dep.Parent).Include(dept => dept.SubDepartments).ThenInclude(dept => dept.SubDepartments).FirstOrDefaultAsync(dept => dept.Id == deptId);
+            var department = await _dbContext.Departments.Include(dept => dept.Parent).ThenInclude(dep => dep.Parent)
+                    .Include(dept => dept.SubDepartments).ThenInclude(dept => dept.SubDepartments)
+                    .FirstOrDefaultAsync(dept => dept.Id == deptId);
 
             if (department == null)
             {
@@ -37,8 +39,9 @@ public class DepartmentServices : IDepartmentServices
 
             return departmentDetails!;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            logger.LogError(ex.Message);
             throw;
         }
         finally
@@ -58,8 +61,9 @@ public class DepartmentServices : IDepartmentServices
 
             return departments;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            logger.LogError(ex.Message);
             throw;
         }
         finally

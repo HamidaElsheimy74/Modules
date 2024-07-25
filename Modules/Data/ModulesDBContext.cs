@@ -6,22 +6,28 @@ namespace Modules.Data;
 public class ModulesDBContext : DbContext
 {
 
-	public ModulesDBContext(DbContextOptions<ModulesDBContext> options)
-		  : base(options)
-	{
-	}
-	public DbSet<Department> Departments { get; set; }
-	public DbSet<Reminder> Reminders { get; set; }
+    public ModulesDBContext(DbContextOptions<ModulesDBContext> options)
+          : base(options)
+    {
+    }
+    public DbSet<Department> Departments { get; set; }
+    public DbSet<Reminder> Reminders { get; set; }
 
 
-	protected override void OnModelCreating(ModelBuilder modelBuilder)
-	{
-		modelBuilder.Entity<Department>()
-			.HasOne(e => e.Parent)
-			.WithMany(e => e.SubDepartments)
-			.HasForeignKey(e => e.ParentId).IsRequired(false);
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Department>(D =>
+        {
 
-		modelBuilder.Seed();
-	}
+            D.HasOne(e => e.Parent)
+            .WithMany(e => e.SubDepartments)
+            .HasForeignKey(e => e.ParentId).IsRequired(false);
+            if (!Database.IsInMemory())
+                modelBuilder.Seed();
+        });
+
+
+
+    }
 }
 

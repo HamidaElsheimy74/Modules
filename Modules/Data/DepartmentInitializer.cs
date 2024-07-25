@@ -25,9 +25,6 @@ public static class DepartmentInitializer
             new Department { Id = 13, DepartmentName = "Video Editing", ParentId = 9, DepartmentLogo = ImageHelper.ImageToByteArray(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Images\\WebDevDes.png")), creationDate = DateTime.UtcNow },
             new Department { Id = 14, DepartmentName = "Video Strategy", ParentId = 9, DepartmentLogo = ImageHelper.ImageToByteArray(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Images\\WebDevDes.png")), creationDate = DateTime.UtcNow }
 
-
-
-
             );
     }
 }
